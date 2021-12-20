@@ -19,7 +19,7 @@ module.exports = app =>{
     route.get('/getById/:id',ProductController.GetById);
     route.get('/getByType',ProductController.GetByType);
     route.get('/getByCategory',ProductController.GetByCategory);
-    route.get('/getByName',ProductController.GetByName);
+    route.get('/getByProductName',ProductController.GetByName);
 
     var PaymentController = require('../Controller/PaymentController')
     route.post('/payment',PaymentController.PaymentConfirm)

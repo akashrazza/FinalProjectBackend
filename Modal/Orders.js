@@ -6,7 +6,7 @@ module.exports = (sequelize,Sequelize) =>{
             autoIncrement:true
         },
         AddressId : Sequelize.STRING,
-        products :Sequelize.ARRAY(Sequelize.INTEGER),
+        products_quantity_amount :Sequelize.ARRAY(Sequelize.ARRAY(Sequelize.INTEGER)),
         user_id:Sequelize.INTEGER,
         Amount:Sequelize.INTEGER,
         Payment:Sequelize.STRING

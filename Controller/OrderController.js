@@ -46,7 +46,7 @@ exports.GetOrderByUser =async (req,res) =>{
         
         for (var i=0;i<data.length;i++){
             var obj = data;
-           pro_obj.push(obj[i].products)
+           pro_obj.push(obj[i].products_quantity_amount)
             res_obj.push({...obj[i]})
         }
         
@@ -55,16 +55,16 @@ exports.GetOrderByUser =async (req,res) =>{
         console.log(err)
         res.status(400).send("Something Went Wronge")
     })
-    
+    console.log(pro_obj)
     for(var i=0;i<pro_obj.length;i++){
         var product_arr=[]
-
+        console.log(pro_obj[i])
         for (var j=0;j<pro_obj[i].length;j++){
             console.log('b')
-            await ProductModal.findByPk(pro_obj[i][j])
+            await ProductModal.findByPk(pro_obj[i][j][0],{raw:true})
             .then(data=>{
                 console.log('c')
-                product_arr.push(data);
+                product_arr.push({...data,quantity:pro_obj[i][j][1],amount:pro_obj[i][j][2]});
             })
         }
         res_obj[i]={...res_obj[i],product_arr:product_arr}
@@ -76,14 +76,14 @@ exports.GetOrderByUser =async (req,res) =>{
 
 
 exports.GetAllOrder = async(req,res) =>{
-    
     var res_obj=[]
     var pro_obj =[]
-     await OrderModal.findAll({raw:true})
+    await OrderModal.findAll({raw:true})
     .then(data=>{
+        
         for (var i=0;i<data.length;i++){
             var obj = data;
-           pro_obj.push(obj[i].products)
+           pro_obj.push(obj[i].products_quantity_amount)
             res_obj.push({...obj[i]})
         }
         
@@ -92,16 +92,21 @@ exports.GetAllOrder = async(req,res) =>{
         console.log(err)
         res.status(400).send("Something Went Wronge")
     })
-    
+    console.log(pro_obj)
     for(var i=0;i<pro_obj.length;i++){
         var product_arr=[]
+        console.log(pro_obj[i])
         for (var j=0;j<pro_obj[i].length;j++){
-            await ProductModal.findByPk(pro_obj[i][j])
+            console.log('b')
+            await ProductModal.findByPk(pro_obj[i][j][0],{raw:true})
             .then(data=>{
-                product_arr.push(data);
+                console.log('c')
+                product_arr.push({...data,quantity:pro_obj[i][j][1],amount:pro_obj[i][j][2]});
             })
         }
         res_obj[i]={...res_obj[i],product_arr:product_arr}
+        console.log(res_obj)
     }
+    console.log(res_obj)
     res.status(200).send(res_obj);
 }

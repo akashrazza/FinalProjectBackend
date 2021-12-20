@@ -130,6 +130,7 @@ exports.GetUserByName = (req,res) =>{
 
     if(name==undefined){
         res.status(400).send("Provide Name");
+        throw "Name Not Provided"
     }
     
     UserModal.findAll({where:{first_name:name}})

@@ -3,10 +3,11 @@ var Product = db.ProductModal
 var Description = require('../Modal/Description')(db.sequelize,db.Sequelize);
 var Specification = require('../Modal/SpecificationModal')(db.sequelize,db.Sequelize);
 var Variant = require('../Modal/VariantModal')(db.sequelize,db.Sequelize);
-
+var Op = db.Sequelize.Op;
 
 exports.Insert = (req,res) =>{
     console.log(req.body)
+    req.body.quantity=0
     Product.create(req.body,{
         include: [{all:true}]}
         )
@@ -122,7 +123,7 @@ exports.GetByName = (req,res) =>{
         limit=100;
     }
     
-    Product.findAll({where:{product_name:product_name}, include: [{ all: true }],limit:limit,offset:(page-1)*limit})
+    Product.findAll({where:{product_name:{[Op.like]:'%'+product_name+'%'}}, include: [{ all: true }],limit:limit,offset:(page-1)*limit})
     .then(data=>{
         res.status(200).send(data);
     })
